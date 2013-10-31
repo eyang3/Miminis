@@ -81,6 +81,7 @@ passport.deserializeUser(function(id, done) {
 app.get('/', routes.index);
 app.post('/sendTweet', search.tweet);
 app.get('/search', search.search);
+app.get('/search2', search.search2);
 app.get('/users', user.list);
 app.get('/auth/twitter', passport.authenticate('twitter'));
 app.get('/auth/instagram/callback', passport.authenticate('instagram', { failureRedirect: '/fail'}),   

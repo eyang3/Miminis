@@ -1,0 +1,19 @@
+28 Oct 15:27:30 - [33m[nodemon] v0.7.10[0m
+28 Oct 15:27:30 - [33m[nodemon] to restart at any time, enter `rs`[0m
+28 Oct 15:27:30 - [32m[nodemon] watching: /home/eric/geotweet/views[0m
+28 Oct 15:27:30 - [nodemon] exception in nodemon killing node
+Error: EBADF, read
+28 Oct 15:27:30 - [32m[nodemon] Unable to write to temp directory. If you experience problems with file reloading, ensure /tmp is writable.[0m
+28 Oct 15:27:30 - [32m[nodemon] starting `node app.js -ext .js|.css|.html`[0m
+
+module.js:340
+    throw err;
+          ^
+Error: Cannot find module '/home/eric/geotweet/views/app.js'
+    at Function.Module._resolveFilename (module.js:338:15)
+    at Function.Module._load (module.js:280:25)
+    at Function.Module.runMain (module.js:497:10)
+    at startup (node.js:119:16)
+    at node.js:901:3
+28 Oct 15:27:31 - [1;31m[nodemon] app crashed - waiting for file changes before starting...[0m
+28 Oct 15:27:31 - [nodemon] exiting
