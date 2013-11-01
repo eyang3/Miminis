@@ -19,9 +19,9 @@ var url = require('url');
 function grabInstagram(obj, token) {
     var buffer = [];
     var result = [];
-    async.forEach(obj, function(item
+    async.forEach(obj, function(item) {
 
-            var obj = https.get("https://api.instagram.com/v1/locations/" + id + "/media/recent?access_token=" + token, function(result) {
+            var obj2 = https.get("https://api.instagram.com/v1/locations/" + id + "/media/recent?access_token=" + token, function(result) {
                 result.setEncoding('utf8');
                 result.on('data', function(chunk) {
                     buffer.push(chunk);
@@ -31,7 +31,8 @@ function grabInstagram(obj, token) {
                     var obj = JSON.parse(text);
                 });
             });
-        }
+        });
+}
 
         exports.searchInstagram = function(req, res) {
             var queryData = url.parse(req.url, true).query;
