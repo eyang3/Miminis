@@ -81,6 +81,7 @@ function grabInstagram(obj, token) {
                                         user: {
                                             profile_image_url: item.user.profile_image_url
                                         }
+					url: "https://twitter.com/"+ item.user.screen_name + "/status/" + item.id_str
                                     };
                                     counter++;
                                 }

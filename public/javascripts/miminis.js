@@ -104,6 +104,6 @@ function parseData(data) {
 }
 function generateString(item) {
 	//var str = '<img src=\'' + item.user.entities.profile.background + '\'' + '>'
-	return('<table><tr><td><img src=\''+item.user.profile_image_url+'\'></td><td style=\'max-width:140px; word-wrap:break-word;\'>' + item.text + '</td></tr></table>');
+	return('<table><tr><td><img src=\''+item.user.profile_image_url+'\'></td><td style=\'max-width:140px; word-wrap:break-word;\'>' + item.text + "<br><a href = \"" + item.url + "\" target=\"_blank\">Go to Tweet</a>" +'</td></tr></table>');
 }
 getTweets();
