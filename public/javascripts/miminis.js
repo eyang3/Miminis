@@ -135,7 +135,6 @@ function instagramHandler(data, oms, miminis_window) {
 
 function parseData(data, mapHandler, windowHandler) {
     mdata = data;
-    console.log('fineinshed');
     var oms = new OverlappingMarkerSpiderfier(map);
     var gm = google.maps;
     var iw = new gm.InfoWindow();
@@ -179,5 +178,12 @@ function generateStringInstagram(item) {
     //var str = '<img src=\'' + item.user.entities.profile.background + '\'' + '>'
     return ('<table><tr><td><a href=\''+item.url+'\' target=\"_blank\"><img src=\'' + item.img_url.url + '\'></a></td></tr><tr><td style=\'max-width:140px; word-wrap:break-word;\'>'+item.caption+'</td></tr></table>');
 }
-getTweets();
-getInstagram();
+
+function async(fn, callback) {
+	setTimeout(function() {
+		fn();
+		callback();
+	},0);
+}
+async(getTweets, function () {});
+async(getInstagram, function () {});
