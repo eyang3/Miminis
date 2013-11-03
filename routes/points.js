@@ -3,7 +3,7 @@ var https = require('https');
 var OAuth = require('oauth');
 var util = require('util');
 var Worker = require('webworker-threads').Worker;
-var async = require('async');
+var forEach = require('async-foreach').forEach;
 var oauth = new OAuth.OAuth(
     'https://api.twitter.com/oauth/request_token',
     'https://api.twitter.com/oauth/access_token',
@@ -15,21 +15,40 @@ var oauth = new OAuth.OAuth(
 
 var url = require('url');
 
-function grabInstagram(id, token) {
-   var buffer = [];
-   var result = [];
-   
-    var obj = https.get("https://api.instagram.com/v1/locations/" + id + "/media/recent?access_token=" + token, function(result) {
-        result.setEncoding('utf8');
-        result.on('data', function(chunk) {
-            buffer.push(chunk);
+function grabInstagram(obj, token, res) {
+    var retResult = [];
+    var returned = {};
+    var needed = obj.length;
+    var gotten = 0;
+    for (var i = 0; i < obj.length; i++) {
+        https.get("https://api.instagram.com/v1/locations/" + obj[i].id + "/media/recent?access_token=" + token, function(result) {
+            result.setEncoding('utf8');
+            var buffer = [];
+            result.on('data', function(chunk) {
+                buffer.push(chunk);
+            });
+            result.on('end', function() {
+                var text = buffer.join('');
+                try {
+                    var obj = JSON.parse(text);
+                    retResult[gotten] = {
+                        location: obj.data[0].location,
+                        img_url: obj.data[0].images.thumbnail,
+                        url: obj.data[0].link,
+                        caption: obj.data[0].caption.text
+                    };
+                } catch (ee) {
+                    retResult[gotten] = null;
+                }
+                gotten++;
+                if (gotten == needed) {
+                    res.send(retResult);
+                }
+
+            });
+
         });
-        result.on('end', function() {
-            var text = buffer.join('');
-            var obj = JSON.parse(text);
-		return(obj);
-    });
-});
+    }
 }
 
 exports.searchInstagram = function(req, res) {
@@ -43,14 +62,13 @@ exports.searchInstagram = function(req, res) {
         });
         result.on('end', function() {
             var text = buffer.join('');
-            var obj = JSON.parse(text);
             try {
-                var id = obj.data[0].id;
-		res.send(grabInstagram(id, req.cookies.instagram));
-            } catch (e) {
-                res.send("Error");
+                var obj = JSON.parse(text);
+                grabInstagram(obj.data, req.cookies.instagram, res);
+            } catch (ex) {
+                console.log("T2");
+                console.log(text);
             }
-
         });
     });
 }
@@ -80,7 +98,8 @@ exports.search = function(req, res) {
                                 text: item.text,
                                 user: {
                                     profile_image_url: item.user.profile_image_url
-                                }
+                                },
+                                url: "https://twitter.com/" + item.user.screen_name + "/status/" + item.id_str
                             };
                             counter++;
                         }
@@ -128,6 +147,6 @@ exports.search2 = function(req, res) {
         config.keys['accessToken'],
         config.keys['accessSecret'],
         function(e, data, resp) {
-		res.send(data)
-	});
+            res.send(data)
+        });
 }

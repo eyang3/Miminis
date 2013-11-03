@@ -1,7 +1,7 @@
 
 {% extends 'layout.html' %}
 
-{% block title %}My Page{% endblock %}
+{% block title %}Miminis{% endblock %}
 
 {% block head %}
   {% parent %}
@@ -24,6 +24,8 @@
 	<div class="row" style="padding: 10px">
 		<div id='map-canvas' class="mobile-12 large-12 columns" style="height: 300px;width:100%;"> </div>
 		{#<a href="/geotweet/auth/twitter">Login with Twitter</a> #}
+		<div id = "boo" class = "row">
+		</div>
 	</div>
 	<div class ="row">
 		<div class="mobile-12 columns">
@@ -43,6 +45,7 @@
 
 
 {% block script %}
+<script src="javascripts/spin.min.js"></script>
 <script src="https://maps.googleapis.com/maps/api/js?v=3&sensor=false"></script>
 <script src="javascripts/oms.min.js"></script>
 <script src="javascripts/miminis.js"></script>
