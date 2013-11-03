@@ -22,31 +22,32 @@ function grabInstagram(obj, token, res) {
     var gotten = 0;
     for (var i = 0; i < obj.length; i++) {
         https.get("https://api.instagram.com/v1/locations/" + obj[i].id + "/media/recent?access_token=" + token, function(result) {
-		result.setEncoding('utf8');
-		var buffer = [];
-		result.on('data', function(chunk) {
-			buffer.push(chunk);
-		});
-		result.on('end', function () {
-		    var text = buffer.join('');
-		    try{
-		        var obj = JSON.parse(text);
-		     	retResult[gotten] = {location: obj.data[0].location, 
-			img_url: obj.data[0].images.thumbnail,
-			url: obj.data[0].link,
-			caption: obj.data[0].caption.text};
-		    }
-		    catch(ee) {
-			retResult[gotten] = null;		
-		    }
-		    gotten++;
-		    if(gotten == needed) {
-			res.send(retResult);
-		    }
-		
-		});
-		
-	});
+            result.setEncoding('utf8');
+            var buffer = [];
+            result.on('data', function(chunk) {
+                buffer.push(chunk);
+            });
+            result.on('end', function() {
+                var text = buffer.join('');
+                try {
+                    var obj = JSON.parse(text);
+                    retResult[gotten] = {
+                        location: obj.data[0].location,
+                        img_url: obj.data[0].images.thumbnail,
+                        url: obj.data[0].link,
+                        caption: obj.data[0].caption.text
+                    };
+                } catch (ee) {
+                    retResult[gotten] = null;
+                }
+                gotten++;
+                if (gotten == needed) {
+                    res.send(retResult);
+                }
+
+            });
+
+        });
     }
 }
 
@@ -61,14 +62,13 @@ exports.searchInstagram = function(req, res) {
         });
         result.on('end', function() {
             var text = buffer.join('');
-	    try {
-		    var obj = JSON.parse(text);
-		    grabInstagram(obj.data, req.cookies.instagram, res);
-	     } 
-	     catch(ex) {
-	        console.log("T2");
-		console.log(text);
-	     }
+            try {
+                var obj = JSON.parse(text);
+                grabInstagram(obj.data, req.cookies.instagram, res);
+            } catch (ex) {
+                console.log("T2");
+                console.log(text);
+            }
         });
     });
 }

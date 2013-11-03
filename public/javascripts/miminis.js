@@ -6,6 +6,7 @@ var miminis_windows2 = new Array();
 
 var target = document.getElementById('boo');
 var spinner = new Spinner(opts).spin(target);
+
 function sendTweet() {
     var tweet = $(Tweet).val("");
     navigator.geolocation.getCurrentPosition(function(position) {
@@ -70,7 +71,7 @@ function getInstagram() {
 
 
 function googleHandler(data, oms, miminis_window) {
-    data = data.statuses 
+    data = data.statuses
     $.each(data, function(i, item) {
         if (item.geo) {
             var position = new google.maps.LatLng(item.geo.coordinates[0], item.geo.coordinates[1]);
@@ -101,6 +102,7 @@ function googleHandler(data, oms, miminis_window) {
         }
     });
 }
+
 function instagramHandler(data, oms, miminis_window) {
     spinner.stop();
     $.each(data, function(i, item) {
@@ -111,8 +113,8 @@ function instagramHandler(data, oms, miminis_window) {
                 map: map,
                 title: item.location.name
             });
-	    iconFile = 'http://maps.google.com/mapfiles/ms/icons/green-dot.png'; 
-	marker.setIcon(iconFile) 
+            iconFile = 'http://maps.google.com/mapfiles/ms/icons/green-dot.png';
+            marker.setIcon(iconFile)
             var contentString = generateStringInstagram(item);
             var infowindow = new google.maps.InfoWindow({
                 content: contentString,
@@ -153,7 +155,7 @@ function parseData(data, mapHandler, windowHandler) {
         }
     });
     google.maps.event.addListener(map.getStreetView(), 'pano_changed', function() {});
-    mapHandler(data, oms, windowHandler); 
+    mapHandler(data, oms, windowHandler);
 }
 
 function getTweets() {
@@ -177,39 +179,30 @@ function generateString(item) {
     //var str = '<img src=\'' + item.user.entities.profile.background + '\'' + '>'
     return ('<table><tr><td><img src=\'' + item.user.profile_image_url + '\'></td><td style=\'max-width:140px; word-wrap:break-word;\'>' + item.text + "<br><a href = \"" + item.url + "\" target=\"_blank\">Go to Tweet</a>" + '</td></tr></table>');
 }
+
 function generateStringInstagram(item) {
     //var str = '<img src=\'' + item.user.entities.profile.background + '\'' + '>'
-    return ('<table><tr><td><a href=\''+item.url+'\' target=\"_blank\"><img src=\'' + item.img_url.url + '\'></a></td></tr><tr><td style=\'max-width:140px; word-wrap:break-word;\'>'+item.caption+'</td></tr></table>');
+    return ('<table><tr><td><a href=\'' + item.url + '\' target=\"_blank\"><img src=\'' + item.img_url.url + '\'></a></td></tr><tr><td style=\'max-width:140px; word-wrap:break-word;\'>' + item.caption + '</td></tr></table>');
 }
 
 var opts = {
-  lines: 13, // The number of lines to draw
-  length: 20, // The length of each line
-  width: 10, // The line thickness
-  radius: 30, // The radius of the inner circle
-  corners: 1, // Corner roundness (0..1)
-  rotate: 0, // The rotation offset
-  direction: 1, // 1: clockwise, -1: counterclockwise
-  color: '#000', // #rgb or #rrggbb or array of colors
-  speed: 1, // Rounds per second
-  trail: 60, // Afterglow percentage
-  shadow: false, // Whether to render a shadow
-  hwaccel: false, // Whether to use hardware acceleration
-  className: 'spinner', // The CSS class to assign to the spinner
-  zIndex: 2e9, // The z-index (defaults to 2000000000)
-  top: 'auto', // Top position relative to parent in px
-  left: 'auto' // Left position relative to parent in px
+    lines: 13, // The number of lines to draw
+    length: 20, // The length of each line
+    width: 10, // The line thickness
+    radius: 30, // The radius of the inner circle
+    corners: 1, // Corner roundness (0..1)
+    rotate: 0, // The rotation offset
+    direction: 1, // 1: clockwise, -1: counterclockwise
+    color: '#000', // #rgb or #rrggbb or array of colors
+    speed: 1, // Rounds per second
+    trail: 60, // Afterglow percentage
+    shadow: false, // Whether to render a shadow
+    hwaccel: false, // Whether to use hardware acceleration
+    className: 'spinner', // The CSS class to assign to the spinner
+    zIndex: 2e9, // The z-index (defaults to 2000000000)
+    top: 'auto', // Top position relative to parent in px
+    left: 'auto' // Left position relative to parent in px
 };
 
-function async(fn, callback) {
-	setTimeout(function() {
-		fn();
-	},0);
-}
-async(getTweets, function () {});
-async(getInstagram, function() {}); 
-
-function tx() {
-	
-}
-
+getTweets();
+getInstagram();
