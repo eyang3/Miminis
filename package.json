@@ -12,6 +12,10 @@
     "passport-twitter":"*",
     "node-oauth":"*",
     "oauth":"*",
-    "mongoose":"*"
+    "mongoose":"*",
+    "passport-instagram":"*",
+    "async-foreach":"*",
+    "webworker-threads":"*",
+    "async":"*"
   }
 }
