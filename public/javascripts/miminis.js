@@ -4,6 +4,8 @@ var mdata = 1;
 var miminis_windows = new Array();
 var miminis_windows2 = new Array();
 
+var target = document.getElementById('boo');
+var spinner = new Spinner(opts).spin(target);
 function sendTweet() {
     var tweet = $(Tweet).val("");
     navigator.geolocation.getCurrentPosition(function(position) {
@@ -100,6 +102,7 @@ function googleHandler(data, oms, miminis_window) {
     });
 }
 function instagramHandler(data, oms, miminis_window) {
+    spinner.stop();
     $.each(data, function(i, item) {
         if (item) {
             var position = new google.maps.LatLng(item.location.latitude, item.location.longitude);
@@ -179,11 +182,34 @@ function generateStringInstagram(item) {
     return ('<table><tr><td><a href=\''+item.url+'\' target=\"_blank\"><img src=\'' + item.img_url.url + '\'></a></td></tr><tr><td style=\'max-width:140px; word-wrap:break-word;\'>'+item.caption+'</td></tr></table>');
 }
 
+var opts = {
+  lines: 13, // The number of lines to draw
+  length: 20, // The length of each line
+  width: 10, // The line thickness
+  radius: 30, // The radius of the inner circle
+  corners: 1, // Corner roundness (0..1)
+  rotate: 0, // The rotation offset
+  direction: 1, // 1: clockwise, -1: counterclockwise
+  color: '#000', // #rgb or #rrggbb or array of colors
+  speed: 1, // Rounds per second
+  trail: 60, // Afterglow percentage
+  shadow: false, // Whether to render a shadow
+  hwaccel: false, // Whether to use hardware acceleration
+  className: 'spinner', // The CSS class to assign to the spinner
+  zIndex: 2e9, // The z-index (defaults to 2000000000)
+  top: 'auto', // Top position relative to parent in px
+  left: 'auto' // Left position relative to parent in px
+};
+
 function async(fn, callback) {
 	setTimeout(function() {
 		fn();
-		callback();
 	},0);
 }
 async(getTweets, function () {});
-async(getInstagram, function () {});
+async(getInstagram, function() {}); 
+
+function tx() {
+	
+}
+

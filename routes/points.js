@@ -29,8 +29,8 @@ function grabInstagram(obj, token, res) {
 		});
 		result.on('end', function () {
 		    var text = buffer.join('');
-		    var obj = JSON.parse(text);
 		    try{
+		        var obj = JSON.parse(text);
 		     	retResult[gotten] = {location: obj.data[0].location, 
 			img_url: obj.data[0].images.thumbnail,
 			url: obj.data[0].link,
@@ -54,7 +54,6 @@ exports.searchInstagram = function(req, res) {
     var queryData = url.parse(req.url, true).query;
     var buffer = [];
 
-    console.log("https://api.instagram.com/v1/locations/search?lat=" + queryData.lat + "&lng=" + queryData["long"] + "&access_token=" + req.cookies.instagram);
     https.get("https://api.instagram.com/v1/locations/search?lat=" + queryData.lat + "&lng=" + queryData["long"] + "&access_token=" + req.cookies.instagram, function(result) {
         result.setEncoding('utf8');
         result.on('data', function(chunk) {
@@ -62,8 +61,14 @@ exports.searchInstagram = function(req, res) {
         });
         result.on('end', function() {
             var text = buffer.join('');
-            var obj = JSON.parse(text);
-            grabInstagram(obj.data, req.cookies.instagram, res);
+	    try {
+		    var obj = JSON.parse(text);
+		    grabInstagram(obj.data, req.cookies.instagram, res);
+	     } 
+	     catch(ex) {
+	        console.log("T2");
+		console.log(text);
+	     }
         });
     });
 }
